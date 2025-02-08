@@ -1,0 +1,25 @@
+services:  
+  billing-engine-db:  
+    image: postgres:latest  
+    environment:  
+      POSTGRES_USER: userdb  
+      POSTGRES_PASSWORD: password123  
+      POSTGRES_DB: billing_engine_db  
+    ports:  
+      - "5432:5432"  
+    volumes:  
+      - postgres_data:/var/lib/postgresql/data  
+
+  billing-engine-app:  
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    ports:  
+      - "8080:8080"  
+    volumes:  
+      - .:/app
+    depends_on:
+      - billing-engine-db
+  
+volumes:  
+  postgres_data:
